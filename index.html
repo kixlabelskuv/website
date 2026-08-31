@@ -1,0 +1,4558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KIX Labels | Keep It Expressive</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #070914;
+    color: #111;
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   GLOBAL ANIMATED BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(circle at 10% 20%, rgba(117,180,255,0.14), transparent 25%),
+        radial-gradient(circle at 85% 15%, rgba(190,100,255,0.13), transparent 25%),
+        radial-gradient(circle at 50% 85%, rgba(72,220,255,0.10), transparent 30%),
+        linear-gradient(120deg, #05060d, #0a1020, #070914, #11101e);
+
+    background-size: 180% 180%;
+
+    animation: backgroundDrift 18s ease-in-out infinite alternate;
+
+    pointer-events: none;
+    z-index: -3;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.35) 1px, transparent 1px);
+
+    background-size: 95px 95px, 145px 145px;
+    background-position: 0 0, 40px 60px;
+
+    opacity: 0.16;
+
+    animation: starsMove 30s linear infinite;
+
+    pointer-events: none;
+    z-index: -2;
+}
+
+@keyframes backgroundDrift {
+
+    0% {
+        background-position: 0% 30%;
+    }
+
+    50% {
+        background-position: 100% 70%;
+    }
+
+    100% {
+        background-position: 20% 100%;
+    }
+}
+
+@keyframes starsMove {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-180px);
+    }
+}
+
+
+/* =========================================================
+   SCROLL REVEAL SYSTEM
+========================================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(80px) scale(0.96);
+    filter: blur(8px);
+
+    transition:
+        opacity 0.9s cubic-bezier(.16,1,.3,1),
+        transform 1s cubic-bezier(.16,1,.3,1),
+        filter 0.9s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    padding: 18px 50px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(5,7,15,0.72);
+
+    backdrop-filter: blur(18px);
+
+    z-index: 1000;
+
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.18);
+
+    transition:
+        background 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.logo img {
+    width: 85px;
+    height: auto;
+    display: block;
+}
+
+.tagline {
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 4px;
+    color: rgba(255,255,255,0.75);
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    position: relative;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -8px;
+
+    width: 0;
+    height: 2px;
+
+    background: white;
+
+    transform: translateX(-50%);
+
+    transition: width 0.35s ease;
+}
+
+.nav-links a:hover {
+    transform: translateY(-3px);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    color: white;
+
+    padding: 120px 20px 40px;
+
+    background:
+        radial-gradient(circle at center, rgba(104,168,255,0.15), transparent 35%),
+        transparent;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        0 0 100px rgba(100,170,255,0.08),
+        inset 0 0 100px rgba(180,100,255,0.05);
+
+    animation:
+        heroOrbit 12s linear infinite,
+        heroPulse 5s ease-in-out infinite alternate;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 900px;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+
+    transform: rotate(-25deg);
+
+    animation: lightSweep 6s ease-in-out infinite;
+}
+
+@keyframes heroOrbit {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes heroPulse {
+
+    from {
+        scale: 0.92;
+        opacity: 0.45;
+    }
+
+    to {
+        scale: 1.08;
+        opacity: 1;
+    }
+}
+
+@keyframes lightSweep {
+
+    0%, 100% {
+        transform: translateX(-500px) rotate(-25deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateX(500px) rotate(-25deg);
+        opacity: 1;
+    }
+}
+
+.hero-small {
+    font-size: 13px;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+
+    animation: heroText 1s cubic-bezier(.16,1,.3,1);
+}
+
+.hero h1 {
+    font-size: clamp(70px, 15vw, 180px);
+
+    letter-spacing: 15px;
+
+    font-weight: 900;
+
+    position: relative;
+
+    animation:
+        heroTitle 1.2s cubic-bezier(.16,1,.3,1),
+        titleGlow 4s ease-in-out infinite alternate;
+}
+
+.hero-subtitle {
+    font-size: 12px;
+    letter-spacing: 4px;
+
+    margin-top: -5px;
+
+    color: #b7c7e8;
+
+    animation: heroText 1.3s cubic-bezier(.16,1,.3,1);
+}
+
+.hero p {
+    font-size: 15px;
+    letter-spacing: 7px;
+
+    margin-top: 12px;
+
+    animation: heroText 1.5s cubic-bezier(.16,1,.3,1);
+}
+
+.scroll {
+    position: absolute;
+
+    bottom: 35px;
+
+    font-size: 10px;
+    letter-spacing: 3px;
+
+    animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes heroTitle {
+
+    from {
+        opacity: 0;
+        transform: scale(0.55) rotateX(70deg);
+        filter: blur(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotateX(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes heroText {
+
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes titleGlow {
+
+    from {
+        text-shadow: 0 0 0 rgba(130,190,255,0);
+    }
+
+    to {
+        text-shadow:
+            0 0 30px rgba(120,180,255,0.35),
+            0 0 70px rgba(170,110,255,0.2);
+    }
+}
+
+@keyframes scrollBounce {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+
+/* =========================================================
+   EUNÖIA
+========================================================= */
+
+.eunoia {
+    min-height: 100vh;
+
+    padding: 130px 8%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 80px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(137,169,203,0.95),
+            rgba(174,198,225,0.94),
+            rgba(121,157,195,0.96)
+        );
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.eunoia::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.12);
+
+    filter: blur(70px);
+
+    top: -200px;
+    right: -150px;
+
+    animation: floatOrb 9s ease-in-out infinite alternate;
+}
+
+.eunoia-image {
+    width: 50%;
+    min-height: 600px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c7dce8,
+            #f2d6d6,
+            #d9e8c8
+        );
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding: 45px;
+
+    position: relative;
+
+    box-shadow:
+        0 35px 90px rgba(20,50,80,0.25);
+
+    transform: perspective(1000px) rotateY(0deg);
+
+    transition:
+        transform 0.8s cubic-bezier(.16,1,.3,1),
+        box-shadow 0.8s ease;
+}
+
+.eunoia-image:hover {
+    transform:
+        perspective(1000px)
+        rotateY(-3deg)
+        translateY(-8px);
+
+    box-shadow:
+        0 50px 120px rgba(20,50,80,0.35);
+}
+
+.eunoia-logo {
+    width: 80%;
+    max-width: 450px;
+
+    height: auto;
+
+    object-fit: contain;
+
+    margin-bottom: 40px;
+
+    animation: logoFloat 5s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+
+    0%,100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(1deg);
+    }
+}
+
+.predebut-preview {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 25px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid rgba(17,17,17,0.18);
+}
+
+.predebut-preview img {
+    width: 150px;
+    height: 100px;
+
+    object-fit: cover;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.15);
+
+    transition:
+        transform 0.5s cubic-bezier(.16,1,.3,1);
+}
+
+.predebut-preview img:hover {
+    transform:
+        scale(1.08)
+        rotate(-2deg);
+}
+
+.predebut-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+
+    font-weight: bold;
+
+    line-height: 1.6;
+
+    max-width: 160px;
+}
+
+.predebut-label span {
+    display: block;
+
+    font-size: 8px;
+    letter-spacing: 2px;
+
+    margin-top: 8px;
+
+    opacity: 0.55;
+}
+
+.eunoia-info {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.label {
+    font-size: 11px;
+    letter-spacing: 5px;
+
+    margin-bottom: 20px;
+
+    opacity: 0.6;
+}
+
+.eunoia-info h2 {
+    font-size: 80px;
+    letter-spacing: 8px;
+
+    margin-bottom: 20px;
+}
+
+.eunoia-info p {
+    line-height: 1.8;
+
+    max-width: 500px;
+
+    color: #24394f;
+}
+
+.button {
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding: 15px 30px;
+
+    border: 1px solid #111;
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    transition:
+        background 0.35s ease,
+        color 0.35s ease,
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.button:hover {
+    background: #111;
+    color: white;
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.18);
+}
+
+
+/* =========================================================
+   NEWS
+========================================================= */
+
+.news {
+    padding: 130px 8%;
+
+    color: white;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(8,10,23,0.98),
+            rgba(16,19,38,0.97)
+        );
+}
+
+.news::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(80,150,255,0.13),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(180,90,255,0.13),
+            transparent 25%
+        );
+
+    pointer-events: none;
+}
+
+.section-title {
+    font-size: 45px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 15px;
+
+    position: relative;
+}
+
+.news-intro {
+    color: #a9b1c5;
+
+    font-size: 12px;
+
+    letter-spacing: 1.5px;
+
+    line-height: 1.8;
+
+    margin-bottom: 55px;
+
+    max-width: 650px;
+
+    position: relative;
+}
+
+.news-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    position: relative;
+}
+
+.news-card {
+    border:
+        1px solid rgba(255,255,255,0.15);
+
+    padding: 30px;
+
+    min-height: 240px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.025)
+        );
+
+    backdrop-filter: blur(10px);
+
+    transition:
+        transform 0.6s cubic-bezier(.16,1,.3,1),
+        box-shadow 0.6s ease,
+        border-color 0.4s ease;
+}
+
+.news-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(110,180,255,0.18),
+            transparent 70%
+        );
+
+    right: -80px;
+    top: -80px;
+
+    transition:
+        transform 0.8s ease;
+}
+
+.news-card:hover {
+    transform:
+        translateY(-12px)
+        rotateX(3deg);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.35);
+
+    border-color:
+        rgba(160,205,255,0.45);
+}
+
+.news-card:hover::before {
+    transform: scale(2);
+}
+
+.news-date {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #8995b0;
+}
+
+.news-card h3 {
+    margin-top: 35px;
+
+    font-size: 23px;
+
+    position: relative;
+}
+
+.news-card p {
+    margin-top: 15px;
+
+    color: #b5bdcf;
+
+    line-height: 1.6;
+
+    position: relative;
+}
+
+.coming-soon {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 7px 12px;
+
+    border:
+        1px solid rgba(255,255,255,0.35);
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+.news-note {
+    margin-top: 45px;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    line-height: 1.8;
+
+    color: #737c92;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   KIX × ILLUSION PARTNERSHIP CARD
+========================================================= */
+
+.partnership-card {
+    margin-top: 30px;
+
+    min-height: 330px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border:
+        1px solid rgba(255,255,255,0.25);
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(255,80,160,0.22),
+            transparent 22%
+        ),
+        radial-gradient(
+            circle at 80% 60%,
+            rgba(80,150,255,0.24),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #080912,
+            #141526,
+            #090b17
+        );
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.4);
+
+    transition:
+        transform 0.7s cubic-bezier(.16,1,.3,1),
+        box-shadow 0.7s ease;
+}
+
+.partnership-card::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -100%;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(255,255,255,0.12),
+            transparent 30%
+        );
+
+    animation:
+        galaxySpin 8s linear infinite;
+}
+
+.partnership-card::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.8) 1px,
+            transparent 1px
+        );
+
+    background-size: 70px 70px;
+
+    opacity: 0.25;
+
+    animation:
+        starsMove 18s linear infinite;
+}
+
+.partnership-card:hover {
+    transform:
+        translateY(-14px)
+        scale(1.015);
+
+    box-shadow:
+        0 40px 100px rgba(100,130,255,0.3);
+}
+
+.partnership-content {
+    position: relative;
+
+    z-index: 3;
+
+    min-height: 330px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 45px;
+}
+
+.partnership-content img {
+    width: min(620px, 90%);
+
+    max-height: 170px;
+
+    object-fit: contain;
+
+    margin-bottom: 25px;
+
+    filter:
+        drop-shadow(0 0 20px rgba(255,255,255,0.18));
+
+    transition:
+        transform 0.7s cubic-bezier(.16,1,.3,1);
+}
+
+.partnership-card:hover
+.partnership-content img {
+    transform:
+        scale(1.06)
+        translateY(-5px);
+}
+
+.partnership-title {
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    color: #aeb9d7;
+
+    margin-bottom: 10px;
+}
+
+.partnership-hint {
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: rgba(255,255,255,0.55);
+
+    margin-top: 15px;
+}
+
+@keyframes galaxySpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about {
+    padding: 130px 15%;
+
+    text-align: center;
+
+    color: white;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0c0e19,
+            #14182b,
+            #0a0c16
+        );
+}
+
+.about::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(150,100,255,0.14),
+            transparent 70%
+        );
+
+    left: -250px;
+    top: 50%;
+
+    transform: translateY(-50%);
+}
+
+.about h2 {
+    font-size: 55px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 30px;
+
+    position: relative;
+}
+
+.about p {
+    max-width: 700px;
+
+    margin: auto;
+
+    line-height: 1.9;
+
+    color: #aeb5c7;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   KIX ARCHIVE
+========================================================= */
+
+.archive-wrapper {
+    margin-top: 70px;
+
+    position: relative;
+}
+
+.archive-card {
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.08),
+            rgba(255,255,255,0.025)
+        );
+
+    padding: 55px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.7s cubic-bezier(.16,1,.3,1),
+        box-shadow 0.7s ease;
+}
+
+.archive-card:hover {
+    transform:
+        translateY(-12px)
+        scale(1.01);
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.4);
+}
+
+.archive-card::before {
+    content: "ARCHIVE";
+
+    position: absolute;
+
+    right: -20px;
+    top: 20px;
+
+    font-size: 90px;
+
+    font-weight: 900;
+
+    letter-spacing: 5px;
+
+    color: rgba(255,255,255,0.025);
+
+    transform: rotate(-8deg);
+}
+
+.archive-label {
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    color: #8995b0;
+
+    margin-bottom: 15px;
+}
+
+.archive-card h3 {
+    font-size: 35px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 15px;
+}
+
+.archive-card p {
+    color: #aeb5c7;
+
+    line-height: 1.7;
+
+    max-width: 700px;
+}
+
+.archive-click {
+    display: inline-block;
+
+    margin-top: 25px;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    padding: 12px 20px;
+
+    border:
+        1px solid rgba(255,255,255,0.3);
+
+    color: white;
+}
+
+
+/* =========================================================
+   CREDITS
+========================================================= */
+
+.credits {
+    background: #ffffff;
+
+    padding: 130px 8%;
+}
+
+.credits-intro {
+    text-align: center;
+
+    margin-bottom: 80px;
+}
+
+.credits-intro h2 {
+    font-size: 55px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 15px;
+}
+
+.credits-intro p {
+    color: #777;
+
+    letter-spacing: 2px;
+
+    font-size: 12px;
+}
+
+.credit-section {
+    margin-bottom: 90px;
+}
+
+.credit-section-title {
+    font-size: 28px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 30px;
+
+    text-align: center;
+}
+
+.credits-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.members-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 20px;
+}
+
+.credit-card,
+.member-card {
+    border:
+        1px solid #ddd;
+
+    padding: 30px 20px;
+
+    min-height: 190px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    transition:
+        transform 0.6s cubic-bezier(.16,1,.3,1),
+        box-shadow 0.6s ease;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.credit-card:hover,
+.member-card:hover {
+    transform:
+        translateY(-10px)
+        rotateX(2deg);
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,0.12);
+}
+
+.credit-role,
+.member-role {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #888;
+
+    margin-bottom: 15px;
+}
+
+.credit-card h3,
+.member-card h3 {
+    font-size: 21px;
+
+    margin-bottom: 10px;
+}
+
+.credit-card p,
+.member-card p {
+    font-size: 12px;
+
+    color: #666;
+
+    line-height: 1.7;
+}
+
+.member-background {
+    margin-top: 5px;
+
+    font-size: 11px;
+
+    color: #888;
+
+    letter-spacing: 0.5px;
+}
+
+.tbc {
+    position: absolute;
+
+    right: 12px;
+    bottom: 10px;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: #aaa;
+}
+
+
+/* =========================================================
+   MEMBER CARD THEMES
+========================================================= */
+
+.member-card::after {
+    position: absolute;
+
+    right: 12px;
+    top: 10px;
+
+    font-size: 34px;
+
+    opacity: 0.18;
+
+    pointer-events: none;
+
+    transition:
+        transform 0.5s ease;
+}
+
+.member-card:hover::after {
+    transform:
+        scale(1.25)
+        rotate(8deg);
+}
+
+.member-card.rabbit {
+    background:
+        linear-gradient(
+            135deg,
+            #fff2f7,
+            #eef5ff
+        );
+}
+
+.member-card.rabbit::after {
+    content: "🐇";
+}
+
+.member-card.swan {
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #e9f5ff
+        );
+}
+
+.member-card.swan::after {
+    content: "🦢";
+}
+
+.member-card.cat {
+    background:
+        linear-gradient(
+            135deg,
+            #faf0ff,
+            #eee3fa
+        );
+}
+
+.member-card.cat::after {
+    content: "🐈";
+}
+
+.member-card.koi {
+    background:
+        linear-gradient(
+            135deg,
+            #e6f8fb,
+            #ffece2
+        );
+}
+
+.member-card.koi::after {
+    content: "🐟";
+}
+
+.member-card.blackcat {
+    background:
+        linear-gradient(
+            135deg,
+            #252532,
+            #41435d
+        );
+
+    color: white;
+}
+
+.member-card.blackcat
+.member-role,
+.member-card.blackcat
+.member-background,
+.member-card.blackcat p {
+    color:
+        rgba(255,255,255,0.65);
+}
+
+.member-card.blackcat::after {
+    content: "🐈‍⬛";
+
+    opacity: 0.28;
+}
+
+
+/* =========================================================
+   PRESS BUTTON
+========================================================= */
+
+.member-info-button {
+    margin-top: 18px;
+
+    padding: 10px 8px;
+
+    background: transparent;
+
+    border:
+        1px solid #111;
+
+    color: #111;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.35s ease,
+        background 0.35s ease,
+        color 0.35s ease;
+}
+
+.member-info-button:hover {
+    background: #111;
+
+    color: white;
+
+    transform:
+        translateY(-4px)
+        scale(1.02);
+}
+
+.blackcat .member-info-button {
+    color: white;
+
+    border-color:
+        rgba(255,255,255,0.5);
+}
+
+.blackcat .member-info-button:hover {
+    background: white;
+
+    color: #111;
+}
+
+
+/* =========================================================
+   MEMBER PROFILE OVERLAY
+========================================================= */
+
+.member-profile-overlay,
+.special-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,0.68);
+
+    backdrop-filter:
+        blur(14px);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.5s ease,
+        visibility 0.5s ease;
+
+    z-index: 3000;
+}
+
+.member-profile-overlay.active,
+.special-overlay.active {
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+/* =========================================================
+   PROFILE CARD
+========================================================= */
+
+.member-profile,
+.special-modal {
+    position: relative;
+
+    width: min(900px, 95vw);
+
+    max-height: 90vh;
+
+    overflow: hidden;
+
+    background: white;
+
+    box-shadow:
+        0 30px 120px rgba(0,0,0,0.5);
+
+    transform:
+        translateY(80px)
+        scale(0.88)
+        rotateX(10deg);
+
+    opacity: 0;
+
+    transition:
+        transform 0.75s cubic-bezier(.16,1,.3,1),
+        opacity 0.5s ease;
+
+    border-radius: 10px;
+}
+
+.member-profile-overlay.active
+.member-profile,
+.special-overlay.active
+.special-modal {
+    transform:
+        translateY(0)
+        scale(1)
+        rotateX(0);
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   PROFILE THEMES
+========================================================= */
+
+.member-profile.rabbit {
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(255,255,255,0.8),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #ffe8f2,
+            #dcecff
+        );
+}
+
+.member-profile.swan {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255,255,255,0.9),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #fdfcff,
+            #dceeff
+        );
+}
+
+.member-profile.cat {
+    background:
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(255,255,255,0.8),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #f8e9ff,
+            #e7d9f7
+        );
+}
+
+.member-profile.koi {
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(255,255,255,0.65),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #ccecf4,
+            #f5d6c8
+        );
+}
+
+.member-profile.blackcat {
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255,255,255,0.12),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #1c1c27,
+            #35364c
+        );
+
+    color: white;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.profile-close,
+.special-close {
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    width: 38px;
+    height: 38px;
+
+    border:
+        1px solid rgba(0,0,0,0.25);
+
+    background:
+        rgba(255,255,255,0.55);
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    transition:
+        transform 0.4s ease,
+        background 0.3s ease;
+}
+
+.profile-close:hover,
+.special-close:hover {
+    transform:
+        rotate(90deg)
+        scale(1.1);
+
+    background: white;
+}
+
+.blackcat .profile-close {
+    color: white;
+
+    background:
+        rgba(255,255,255,0.1);
+
+    border-color:
+        rgba(255,255,255,0.3);
+}
+
+
+/* =========================================================
+   PROFILE CONTENT
+========================================================= */
+
+.profile-content {
+    display: grid;
+
+    grid-template-columns:
+        42% 58%;
+
+    min-height: 570px;
+}
+
+
+/*
+   THIS IS THE IMPORTANT FIX:
+   The photo container has padding on ALL SIDES,
+   including the bottom.
+*/
+
+.profile-photo-container {
+    min-height: 570px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        55px 45px 75px;
+
+    overflow: hidden;
+}
+
+.profile-photo {
+    width: 100%;
+
+    height: auto;
+
+    max-height: 420px;
+
+    object-fit: cover;
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.18);
+
+    transition:
+        transform 0.7s cubic-bezier(.16,1,.3,1);
+
+    border-radius: 4px;
+}
+
+.member-profile:hover
+.profile-photo {
+    transform:
+        scale(1.025)
+        translateY(-4px);
+}
+
+
+/* =========================================================
+   PROFILE INFORMATION
+========================================================= */
+
+.profile-information {
+    padding:
+        75px 55px 60px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+.profile-animal {
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    opacity: 0.65;
+
+    margin-bottom: 12px;
+}
+
+.profile-information h2 {
+    font-size:
+        clamp(42px, 6vw, 75px);
+
+    letter-spacing: 3px;
+
+    margin-bottom: 30px;
+}
+
+.profile-heading {
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 20px;
+
+    opacity: 0.65;
+}
+
+.profile-details {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.profile-detail {
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    padding-bottom: 13px;
+
+    border-bottom:
+        1px solid rgba(0,0,0,0.12);
+
+    animation:
+        detailAppear 0.5s ease both;
+}
+
+.profile-detail:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.profile-detail:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.profile-detail:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+.profile-detail:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+@keyframes detailAppear {
+
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.blackcat .profile-detail {
+    border-bottom-color:
+        rgba(255,255,255,0.18);
+}
+
+.profile-detail strong {
+    display: block;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    opacity: 0.6;
+
+    margin-bottom: 3px;
+}
+
+
+/* =========================================================
+   PROFILE ARROWS
+========================================================= */
+
+.profile-arrow {
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(0,0,0,0.2);
+
+    background:
+        rgba(255,255,255,0.7);
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    transition:
+        transform 0.35s ease,
+        background 0.3s ease;
+}
+
+.profile-arrow:hover {
+    background: white;
+
+    transform:
+        translateY(-50%)
+        scale(1.15);
+}
+
+.profile-arrow.left {
+    left: 15px;
+}
+
+.profile-arrow.right {
+    right: 15px;
+}
+
+.blackcat .profile-arrow {
+    background:
+        rgba(255,255,255,0.1);
+
+    color: white;
+
+    border-color:
+        rgba(255,255,255,0.3);
+}
+
+
+/* =========================================================
+   SPECIAL MODALS
+========================================================= */
+
+.special-modal {
+    width: min(850px, 94vw);
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(90,160,255,0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 90%,
+            rgba(200,90,255,0.18),
+            transparent 30%
+        ),
+        #0a0d19;
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+}
+
+.special-content {
+    padding: 65px;
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+}
+
+.special-content h2 {
+    font-size:
+        clamp(35px, 6vw, 65px);
+
+    letter-spacing: 4px;
+
+    margin-bottom: 15px;
+}
+
+.special-subtitle {
+    color: #91a4ca;
+
+    letter-spacing: 3px;
+
+    font-size: 10px;
+
+    margin-bottom: 40px;
+}
+
+.special-content p {
+    color: #b8c0d2;
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+}
+
+.special-image {
+    width: 100%;
+
+    max-height: 230px;
+
+    object-fit: contain;
+
+    margin:
+        20px 0 30px;
+
+    filter:
+        drop-shadow(
+            0 0 30px rgba(120,170,255,0.2)
+        );
+}
+
+.special-highlight {
+    margin: 25px 0;
+
+    padding: 25px;
+
+    border:
+        1px solid rgba(255,255,255,0.15);
+
+    background:
+        rgba(255,255,255,0.04);
+
+    font-size: 18px;
+
+    line-height: 1.6;
+
+    letter-spacing: 1px;
+
+    color: white;
+}
+
+.archive-timeline {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.archive-entry {
+    display: grid;
+
+    grid-template-columns:
+        150px 1fr;
+
+    gap: 25px;
+
+    padding: 18px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.1);
+
+    animation:
+        archiveEntry 0.6s ease both;
+}
+
+.archive-entry strong {
+    color: #9fb7e9;
+
+    letter-spacing: 2px;
+
+    font-size: 11px;
+}
+
+.archive-entry span {
+    color: #c3c9d8;
+
+    line-height: 1.6;
+
+    font-size: 13px;
+}
+
+@keyframes archiveEntry {
+
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* =========================================================
+   SOCIALS
+========================================================= */
+
+.socials {
+    padding: 120px 8%;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f5f5,
+            #ffffff
+        );
+}
+
+.socials h2 {
+    font-size: 45px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 15px;
+}
+
+.socials > p {
+    color: #777;
+
+    letter-spacing: 2px;
+
+    font-size: 12px;
+}
+
+.social-buttons {
+    margin-top: 45px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.social-buttons a {
+    padding: 18px 30px;
+
+    border:
+        1px solid #111;
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    transition:
+        transform 0.4s cubic-bezier(.16,1,.3,1),
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.social-buttons a:hover {
+    background: #111;
+
+    color: white;
+
+    transform:
+        translateY(-7px)
+        scale(1.04);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    background: #050509;
+
+    color: white;
+
+    padding: 60px 8%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+footer::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(100,150,255,0.12),
+            transparent 70%
+        );
+
+    left: 30%;
+    top: -200px;
+
+    animation:
+        floatOrb 8s ease-in-out infinite alternate;
+}
+
+footer h2 {
+    letter-spacing: 5px;
+
+    position: relative;
+}
+
+footer p {
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color: #999;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   FLOATING ORB
+========================================================= */
+
+@keyframes floatOrb {
+
+    from {
+        transform:
+            translate(0,0)
+            scale(0.9);
+    }
+
+    to {
+        transform:
+            translate(80px,50px)
+            scale(1.2);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .members-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .credits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-content {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-photo-container {
+        min-height: 360px;
+
+        height: 360px;
+
+        padding:
+            40px 100px 55px;
+    }
+
+    .profile-photo {
+        max-height: 270px;
+    }
+
+    .profile-information {
+        padding:
+            30px 80px 55px;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    nav {
+        padding:
+            15px 20px;
+    }
+
+    .logo img {
+        width: 70px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        padding:
+            110px 20px 40px;
+    }
+
+    .hero h1 {
+        font-size:
+            clamp(65px, 23vw, 120px);
+
+        letter-spacing:
+            8px;
+    }
+
+    .hero p {
+        font-size: 10px;
+
+        letter-spacing: 4px;
+    }
+
+    .eunoia {
+        flex-direction: column;
+
+        padding:
+            100px 25px;
+    }
+
+    .eunoia-image {
+        width: 100%;
+
+        min-height: 500px;
+
+        padding:
+            35px 25px;
+    }
+
+    .eunoia-logo {
+        width: 90%;
+
+        max-width: 350px;
+    }
+
+    .predebut-preview {
+        gap: 15px;
+    }
+
+    .predebut-preview img {
+        width: 125px;
+
+        height: 85px;
+    }
+
+    .predebut-label {
+        font-size: 9px;
+
+        letter-spacing: 2px;
+    }
+
+    .eunoia-info h2 {
+        font-size: 55px;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .members-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .credits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .partnership-content {
+        padding: 30px 20px;
+    }
+
+    .partnership-content img {
+        width: 95%;
+    }
+
+    .archive-card {
+        padding: 35px 25px;
+    }
+
+    .archive-card h3 {
+        font-size: 28px;
+    }
+
+    .member-profile-overlay,
+    .special-overlay {
+        padding: 12px;
+    }
+
+    .member-profile,
+    .special-modal {
+        max-height: 94vh;
+
+        overflow-y: auto;
+    }
+
+    .profile-content {
+        display: block;
+    }
+
+    .profile-photo-container {
+        height: 320px;
+
+        min-height: 320px;
+
+        /*
+           EXTRA BOTTOM SPACE ON PHONE
+        */
+
+        padding:
+            40px 55px 55px;
+    }
+
+    .profile-photo {
+        max-height: 220px;
+    }
+
+    .profile-information {
+        padding:
+            20px 45px 50px;
+    }
+
+    .profile-information h2 {
+        font-size: 48px;
+
+        margin-bottom: 20px;
+    }
+
+    .profile-arrow {
+        width: 40px;
+
+        height: 40px;
+    }
+
+    .profile-arrow.left {
+        left: 8px;
+    }
+
+    .profile-arrow.right {
+        right: 8px;
+    }
+
+    .special-content {
+        padding:
+            45px 25px;
+    }
+
+    .archive-entry {
+        grid-template-columns: 1fr;
+
+        gap: 7px;
+    }
+
+    footer {
+        flex-direction: column;
+
+        gap: 20px;
+
+        text-align: center;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .hero-small {
+        font-size: 9px;
+
+        letter-spacing: 3px;
+    }
+
+    .hero-subtitle {
+        font-size: 8px;
+
+        letter-spacing: 2px;
+    }
+
+    .hero p {
+        font-size: 9px;
+
+        letter-spacing: 3px;
+    }
+
+    .eunoia-image {
+        min-height: 430px;
+    }
+
+    .predebut-preview img {
+        width: 105px;
+
+        height: 75px;
+    }
+
+    .predebut-label {
+        font-size: 8px;
+    }
+
+    .section-title {
+        font-size: 36px;
+    }
+
+    .about h2 {
+        font-size: 38px;
+    }
+
+    .credits-intro h2 {
+        font-size: 38px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     NAVIGATION
+======================================================= -->
+
+<nav>
+
+    <div>
+
+        <div class="logo">
+
+            <img
+                src="EUNOIA LOGO (10).png"
+                alt="KIX Labels"
+            >
+
+        </div>
+
+        <div class="tagline">
+            KEEP IT EXPRESSIVE.
+        </div>
+
+    </div>
+
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#home">HOME</a>
+        </li>
+
+        <li>
+            <a href="#eunoia">EUNÖIA</a>
+        </li>
+
+        <li>
+            <a href="#news">NEWS</a>
+        </li>
+
+        <li>
+            <a href="#about">ABOUT</a>
+        </li>
+
+        <li>
+            <a href="#credits">CREDITS</a>
+        </li>
+
+        <li>
+            <a href="#socials">SOCIALS</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-small">
+        KIX LABELS PRESENTS
+    </div>
+
+    <h1>KIX</h1>
+
+    <div class="hero-subtitle">
+        ROBLOX KPOP ENTERTAINMENT {KUV}
+    </div>
+
+    <p>
+        KEEP IT EXPRESSIVE.
+    </p>
+
+    <div class="scroll">
+        SCROLL TO EXPLORE ↓
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     EUNÖIA
+======================================================= -->
+
+<section class="eunoia" id="eunoia">
+
+    <div class="eunoia-image reveal">
+
+        <img
+            src="EUNOIA LOGO (1).png"
+            alt="EUNÖIA Logo"
+            class="eunoia-logo"
+        >
+
+        <div class="predebut-preview">
+
+            <img
+                src="Eunoia Photoshoot.png"
+                alt="EUNÖIA Pre-debut Photoshoot"
+            >
+
+            <div class="predebut-label">
+
+                PRE-DEBUT
+                PHOTOSHOOT
+
+                <span>
+                    EUNÖIA · MY ONE & ME
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="eunoia-info reveal">
+
+        <div class="label">
+            FEATURED ARTIST
+        </div>
+
+        <h2>
+            EUNÖIA
+        </h2>
+
+        <p>
+            EUNÖIA is an expressive group under KIX Labels.
+            Inspired by the individuality and creativity of
+            every member. The group is a 5-member girl group
+            with excellent skills and talent, which is set to
+            debut soon.
+        </p>
+
+        <a
+            href="#credits"
+            class="button"
+        >
+            MEET EUNÖIA →
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     NEWS
+======================================================= -->
+
+<section class="news" id="news">
+
+    <h2 class="section-title reveal">
+        LATEST
+    </h2>
+
+    <p class="news-intro reveal">
+
+        Stay up to date with KIX Labels and EUNÖIA.
+        Official updates and announcements are posted
+        through the KIX Labels Discord server, TikTok
+        and other official social platforms.
+
+    </p>
+
+
+    <div class="news-grid">
+
+
+        <div class="news-card reveal">
+
+            <div class="news-date">
+                KIX LABELS
+            </div>
+
+            <h3>
+                EUNÖIA
+            </h3>
+
+            <p>
+                Discover the latest updates
+                from EUNÖIA.
+            </p>
+
+            <div class="coming-soon">
+                COMING SOON
+            </div>
+
+        </div>
+
+
+
+        <div class="news-card reveal">
+
+            <div class="news-date">
+                KIX LABELS
+            </div>
+
+            <h3>
+                MY ONE & ME
+            </h3>
+
+            <p>
+                Explore EUNÖIA's pre-debut era.
+            </p>
+
+            <div class="coming-soon">
+                COMING SOON
+            </div>
+
+        </div>
+
+
+
+        <div class="news-card reveal">
+
+            <div class="news-date">
+                KIX LABELS
+            </div>
+
+            <h3>
+                AUDITIONS
+            </h3>
+
+            <p>
+                KIX Labels is always looking
+                for new creative talent.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         PARTNERSHIP CARD
+    =================================================== -->
+
+    <div
+        class="partnership-card reveal"
+        onclick="openPartnership()"
+    >
+
+        <div class="partnership-content">
+
+            <div class="partnership-title">
+                KIX LABELS × ILLUSION ENTERTAINMENT
+            </div>
+
+            <img
+                src="Kix X Illusion PARTNERSHIP TEXT ONLY.png"
+                alt="KIX Labels X Illusion Entertainment Partnership"
+            >
+
+            <div class="partnership-hint">
+                PRESS TO DISCOVER THE PARTNERSHIP →
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="news-note">
+
+        OFFICIAL UPDATES ARE SHARED THROUGH
+        THE KIX LABELS DISCORD, TIKTOK & SOCIALS.
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     ABOUT
+======================================================= -->
+
+<section class="about" id="about">
+
+    <h2 class="reveal">
+        KEEP IT EXPRESSIVE.
+    </h2>
+
+    <p class="reveal">
+
+        KIX Labels is an independent entertainment
+        label focused on creativity, individuality
+        and expression. We believe every artist has
+        their own story to tell.
+
+    </p>
+
+
+    <!-- ===================================================
+         KIX ARCHIVE CARD
+    =================================================== -->
+
+    <div
+        class="archive-wrapper reveal"
+    >
+
+        <div
+            class="archive-card"
+            onclick="openArchive()"
+        >
+
+            <div class="archive-label">
+                KIX LABELS HISTORY
+            </div>
+
+            <h3>
+                KIX ARCHIVE
+            </h3>
+
+            <p>
+
+                Explore the history of KIX Labels,
+                from its earliest beginnings through
+                the KIX rebrand and the formation of
+                EUNÖIA and the KIX × Illusion partnership.
+
+            </p>
+
+            <div class="archive-click">
+                OPEN KIX ARCHIVE →
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     CREDITS
+======================================================= -->
+
+<section class="credits" id="credits">
+
+    <div class="credits-intro reveal">
+
+        <h2>
+            HELPERS & CREDITS
+        </h2>
+
+        <p>
+            THE PEOPLE BEHIND KIX LABELS & EUNÖIA
+        </p>
+
+    </div>
+
+
+    <!-- CEOS & MANAGERS -->
+
+    <div class="credit-section">
+
+        <h3 class="credit-section-title reveal">
+            CEOS & MANAGERS
+        </h3>
+
+        <div class="credits-grid">
+
+
+            <div class="credit-card reveal">
+
+                <div class="credit-role">
+                    CEO
+                </div>
+
+                <h3>
+                    Aqi
+                </h3>
+
+                <p>
+                    @aqihou_.
+                </p>
+
+                <div class="member-background">
+                    Filipino-Japanese
+                </div>
+
+            </div>
+
+
+
+            <div class="credit-card reveal">
+
+                <div class="credit-role">
+                    CO-CEO
+                </div>
+
+                <h3>
+                    Tiara
+                </h3>
+
+                <p>
+                    @mocha_light123.
+                </p>
+
+                <div class="member-background">
+                    Indonesian
+                </div>
+
+            </div>
+
+
+
+            <div class="credit-card reveal">
+
+                <div class="credit-role">
+                    MANAGER OF EUNÖIA
+                </div>
+
+                <h3>
+                    Hana / Kari
+                </h3>
+
+                <p>
+                    @Karisonate
+                </p>
+
+                <div class="member-background">
+                    Japanese (OC ethnicity)
+                </div>
+
+                <div class="tbc">
+                    TBC
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HELPERS -->
+
+    <div class="credit-section">
+
+        <h3 class="credit-section-title reveal">
+            HELPERS
+        </h3>
+
+        <div class="credits-grid">
+
+
+            <div class="credit-card reveal">
+
+                <div class="credit-role">
+                    EUNÖIA OUTFIT MAKERS
+                </div>
+
+                <h3>
+                    Hoseok / Sol
+                </h3>
+
+                <p>
+                    Discord: .sunoosmintchoco
+                </p>
+
+                <div class="member-background">
+                    Malaysian
+                </div>
+
+            </div>
+
+
+
+            <div class="credit-card reveal">
+
+                <div class="credit-role">
+                    EUNÖIA TRAINER
+                </div>
+
+                <h3>
+                    Yui
+                </h3>
+
+                <p>
+                    Discord: l.zio._91993
+                </p>
+
+                <div class="member-background">
+                    Korean (OC ethnicity)
+                </div>
+
+                <div class="tbc">
+                    TBC
+                </div>
+
+            </div>
+
+
+
+            <!-- MAE HELPER CARD -->
+
+            <div class="credit-card reveal">
+
+                <div class="credit-role">
+                    CEO OF ILLUSION ENT.
+                </div>
+
+                <h3>
+                    Mae / Miich
+                </h3>
+
+                <p>
+                    @Miichsaltacc
+                </p>
+
+                <div class="member-background">
+                    Korean-American
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         EUNÖIA MEMBERS
+    =================================================== -->
+
+    <div class="credit-section">
+
+        <h3 class="credit-section-title reveal">
+            EUNÖIA MEMBERS
+        </h3>
+
+
+        <div class="members-grid">
+
+
+            <!-- RIKI -->
+
+            <div class="member-card rabbit reveal">
+
+                <div class="member-role">
+                    Maknae
+                </div>
+
+                <h3>
+                    Riki
+                </h3>
+
+                <p>
+                    @_ *cupcakeo*_
+                </p>
+
+                <div class="member-background">
+                    Malaysian
+                </div>
+
+                <button
+                    class="member-info-button"
+                    onclick="openMember(0)"
+                >
+                    Press me for more Info!
+                </button>
+
+            </div>
+
+
+
+            <!-- SUI -->
+
+            <div class="member-card swan reveal">
+
+                <div class="member-role">
+                    Member
+                </div>
+
+                <h3>
+                    Sui
+                </h3>
+
+                <p>
+                    @pawsiiz
+                </p>
+
+                <div class="member-background">
+                    Japanese
+                </div>
+
+                <button
+                    class="member-info-button"
+                    onclick="openMember(1)"
+                >
+                    Press me for more Info!
+                </button>
+
+            </div>
+
+
+
+            <!-- MAE -->
+
+            <div class="member-card cat reveal">
+
+                <div class="member-role">
+                    Member & Leader
+                </div>
+
+                <h3>
+                    Mae / Miich
+                </h3>
+
+                <p>
+                    @Miichsaltacc
+                </p>
+
+                <div class="member-background">
+                    Korean-American
+                </div>
+
+                <button
+                    class="member-info-button"
+                    onclick="openMember(2)"
+                >
+                    Press me for more Info!
+                </button>
+
+            </div>
+
+
+
+            <!-- HEAVEN -->
+
+            <div class="member-card koi reveal">
+
+                <div class="member-role">
+                    Member
+                </div>
+
+                <h3>
+                    Heaven
+                </h3>
+
+                <p>
+                    @heavenslayyy_13473
+                </p>
+
+                <div class="member-background">
+                    Japanese (OC ethnicity)
+                </div>
+
+                <button
+                    class="member-info-button"
+                    onclick="openMember(3)"
+                >
+                    Press me for more Info!
+                </button>
+
+            </div>
+
+
+
+            <!-- AISHA -->
+
+            <div class="member-card blackcat reveal">
+
+                <div class="member-role">
+                    Hyung/Oldest
+                </div>
+
+                <h3>
+                    Aisha
+                </h3>
+
+                <p>
+                    @lia_call123
+                </p>
+
+                <div class="member-background">
+                    Indonesian-Chinese
+                </div>
+
+                <button
+                    class="member-info-button"
+                    onclick="openMember(4)"
+                >
+                    Press me for more Info!
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     MEMBER PROFILE POPUP
+======================================================= -->
+
+<div
+    class="member-profile-overlay"
+    id="memberOverlay"
+>
+
+    <div
+        class="member-profile"
+        id="memberProfile"
+    >
+
+        <button
+            class="profile-close"
+            onclick="closeMember()"
+        >
+            ×
+        </button>
+
+
+        <button
+            class="profile-arrow left"
+            onclick="previousMember()"
+        >
+            ←
+        </button>
+
+
+        <button
+            class="profile-arrow right"
+            onclick="nextMember()"
+        >
+            →
+        </button>
+
+
+        <div class="profile-content">
+
+
+            <div class="profile-photo-container">
+
+                <img
+                    id="profilePhoto"
+                    class="profile-photo"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+
+            <div class="profile-information">
+
+                <div
+                    id="profileAnimal"
+                    class="profile-animal"
+                ></div>
+
+                <h2 id="profileName"></h2>
+
+                <div class="profile-heading">
+                    INFORMATION
+                </div>
+
+                <div
+                    id="profileDetails"
+                    class="profile-details"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     PARTNERSHIP POPUP
+======================================================= -->
+
+<div
+    class="special-overlay"
+    id="partnershipOverlay"
+>
+
+    <div class="special-modal">
+
+        <button
+            class="special-close"
+            onclick="closePartnership()"
+        >
+            ×
+        </button>
+
+
+        <div class="special-content">
+
+            <div class="special-subtitle">
+                KIX LABELS × ILLUSION ENTERTAINMENT
+            </div>
+
+            <h2>
+                PARTNERSHIP
+            </h2>
+
+
+            <img
+                src="KIX LABELS X ILLUSION ENT LOGO.png"
+                alt="KIX Labels X Illusion Entertainment Logo"
+                class="special-image"
+            >
+
+
+            <p>
+
+                KIX Labels and Illusion Entertainment have
+                officially formed a partnership, bringing
+                together two creative entertainment spaces
+                with a shared interest in individuality,
+                creativity and expressive entertainment.
+
+            </p>
+
+
+            <div class="special-highlight">
+
+                This partnership represents a shared focus
+                on creativity, individuality and expressive
+                entertainment.
+
+            </div>
+
+
+            <div class="special-highlight">
+
+                And who knows, a new Group could form
+                because of this..
+
+            </div>
+
+
+            <p>
+
+                The partnership creates opportunities for
+                future projects, creative collaborations,
+                artists and potentially something much
+                bigger in the future.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     KIX ARCHIVE POPUP
+======================================================= -->
+
+<div
+    class="special-overlay"
+    id="archiveOverlay"
+>
+
+    <div class="special-modal">
+
+        <button
+            class="special-close"
+            onclick="closeArchive()"
+        >
+            ×
+        </button>
+
+
+        <div class="special-content">
+
+            <div class="special-subtitle">
+                THE HISTORY OF KIX LABELS
+            </div>
+
+            <h2>
+                KIX ARCHIVE
+            </h2>
+
+
+            <p>
+
+                A timeline of the people, projects,
+                rebrands and moments that eventually
+                became KIX Labels.
+
+            </p>
+
+
+            <div class="archive-timeline">
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JAN 2024
+                    </strong>
+
+                    <span>
+                        XM Entertainment is formed.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        FEB 2024
+                    </strong>
+
+                    <span>
+                        Aisha joins XM Entertainment.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        OCT 2024
+                    </strong>
+
+                    <span>
+                        Riki joins XM Entertainment.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        OCT 2024
+                    </strong>
+
+                    <span>
+                        A girl group where Riki and Aisha
+                        were supposed to debut fails to
+                        launch.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JAN 2025
+                    </strong>
+
+                    <span>
+                        XM Entertainment is rebranded to
+                        Alytrics Entertainment.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JAN 2025
+                    </strong>
+
+                    <span>
+                        Sui and Hoseok join Alytrics
+                        Entertainment.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        2025
+                    </strong>
+
+                    <span>
+                        A boy group and girl group are set
+                        to debut in August 2025, but both
+                        projects ultimately fail to debut.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JAN 2026
+                    </strong>
+
+                    <span>
+                        Alytrics Entertainment enters a
+                        deep hiatus.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JUL 2026
+                    </strong>
+
+                    <span>
+                        Alytrics Entertainment fully
+                        rebrands into KIX Labels.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JUL 2026
+                    </strong>
+
+                    <span>
+                        Mae / Miich, CEO of Illusion
+                        Entertainment, joins.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        JUL 2026
+                    </strong>
+
+                    <span>
+                        Sophie joins KIX Labels and becomes
+                        a member of EUNÖIA.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        2026
+                    </strong>
+
+                    <span>
+                        EUNÖIA officially becomes a KIX
+                        Labels group.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        2026
+                    </strong>
+
+                    <span>
+                        KIX Labels × Illusion Entertainment
+                        partnership forms.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        EARLY AUG 2026
+                    </strong>
+
+                    <span>
+                        Haeumi auditions for EUNÖIA.
+                    </span>
+
+                </div>
+
+
+                <div class="archive-entry">
+
+                    <strong>
+                        MID AUG 2026
+                    </strong>
+
+                    <span>
+                        Haeumi officially joins EUNÖIA, But ends up leaving.
+                    </span>
+
+                </div>
+
+           
+                <div class="archive-entry">
+
+                    <strong>
+                        30/8/2026
+                    </strong>
+
+                    <span>
+                        Heaven Joins EUNÖIA to replace Haeumi the same day Haeumi Leaves
+                    </span>
+
+                </div>
+
+                       
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     SOCIALS
+======================================================= -->
+
+<section class="socials" id="socials">
+
+    <h2 class="reveal">
+        CONNECT WITH KIX
+    </h2>
+
+    <p class="reveal">
+        FOLLOW KIX LABELS AND EUNÖIA
+    </p>
+
+
+    <div class="social-buttons reveal">
+
+        <a
+            href="https://www.tiktok.com/@kixlabels_kuv"
+            target="_blank"
+        >
+            KIX LABELS TIKTOK
+        </a>
+
+
+        <a
+            href="https://www.tiktok.com/@eunoia_kixlabels"
+            target="_blank"
+        >
+            EUNÖIA TIKTOK
+        </a>
+
+
+        <a
+            href="https://discord.gg/FDPGD6qhF"
+            target="_blank"
+        >
+            KIX DISCORD
+        </a>
+
+
+        <a
+            href="https://discord.gg/ZkWaMNtwAN"
+            target="_blank"
+        >
+            ᎷΛ𝐓𝐑𝟏𝐗 || SVS
+        </a>
+
+
+        <a
+            href="https://www.tiktok.com/@matrixsvs_kuv"
+            target="_blank"
+        >
+            ᎷΛ𝐓𝐑𝟏𝐗 || SVS || TIKTOK
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+    <h2>
+        KIX LABELS
+    </h2>
+
+    <p>
+        KEEP IT EXPRESSIVE. © 2026
+    </p>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   MEMBER DATA
+========================================================= */
+
+const members = [
+
+    {
+        name: "Riki",
+
+        animal: "Rabbit",
+
+        theme: "rabbit",
+
+        photo: "Riki Pic.png",
+
+        details: [
+
+            {
+                label: "Nationality",
+                value: "Malaysian"
+            },
+
+            {
+                label: "Position",
+                value: "Maknae (Decorational Role), MORE WILL BE REVEALED"
+            },
+
+            {
+                label: "Label Member Since",
+                value: "October 2024"
+            },
+
+            {
+                label: "Label History",
+                value:
+                    "Joined before KIX Labels fully rebranded."
+            },
+
+            {
+                label: "Favorite Colors",
+                value:
+                    "Pink, Blue, and pastel colors"
+            }
+
+        ]
+    },
+
+
+    {
+        name: "Sui",
+
+        animal: "Swan",
+
+        theme: "swan",
+
+        photo: "Sui Pic.png",
+
+        details: [
+
+            {
+                label: "Nationality",
+                value: "Japanese (OC ethnicity)"
+            },
+
+            {
+                label: "Position",
+                value: "Member, WILL BE REVEALED"
+            },
+
+            {
+                label: "Label Member Since",
+                value: "January 2025"
+            },
+
+            {
+                label: "Label History",
+                value:
+                    "Joined before KIX Labels fully rebranded."
+            },
+
+            {
+                label: "Favorite Colors",
+                value:
+                    "Light colors like pink, etc."
+            }
+
+        ]
+    },
+
+
+    {
+        name: "Mae / Miich",
+
+        animal: "Cat",
+
+        theme: "cat",
+
+        photo: "Mae Pic.png",
+
+        details: [
+
+            {
+                label: "Nationality",
+                value: "Korean-American"
+            },
+
+            {
+                label: "Position",
+                value: "Member, Leader, MORE WILL BE REVEALED"
+            },
+
+            {
+                label: "Label Member Since",
+                value: "July 2026"
+            },
+
+            {
+                label: "Favorite Colors",
+                value:
+                    "Lighter colors like Sui"
+            }
+
+        ]
+    },
+
+
+    {
+        name: "Heaven",
+
+        animal: "Koi Fish",
+
+        theme: "koi",
+
+        photo: "Haeumi Pic.png",
+
+        details: [
+
+            {
+                label: "Nationality",
+                value: "Japanese (OC)"
+            },
+
+            {
+                label: "Position",
+                value: "Member, Will be revealed SOON"
+            },
+
+            {
+                label: "Label Member Since",
+                value: "August 2026"
+            },
+
+            {
+                label: "Favorite Colors",
+                value:
+                    "Darker colors but also pastel"
+            }
+
+        ]
+    },
+
+
+    {
+        name: "Aisha",
+
+        animal: "Black Cat",
+
+        theme: "blackcat",
+
+        photo: "Aisha Pic.png",
+
+        details: [
+
+            {
+                label: "Nationality",
+                value: "Indonesian-Chinese"
+            },
+
+            {
+                label: "Position",
+                value: "Hyung/Oldest (Decorational), MORE WILL BE REVEALED"
+            },
+
+            {
+                label: "Label Member Since",
+                value: "February 2024"
+            },
+
+            {
+                label: "Label History",
+                value:
+                    "Joined before KIX Labels fully rebranded."
+            },
+
+            {
+                label: "Favorite Colors",
+                value:
+                    "Pink, Blue, and pastel colors"
+            }
+
+        ]
+    }
+
+];
+
+
+let currentMember = 0;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const overlay =
+    document.getElementById("memberOverlay");
+
+const profile =
+    document.getElementById("memberProfile");
+
+const profilePhoto =
+    document.getElementById("profilePhoto");
+
+const profileName =
+    document.getElementById("profileName");
+
+const profileAnimal =
+    document.getElementById("profileAnimal");
+
+const profileDetails =
+    document.getElementById("profileDetails");
+
+
+/* =========================================================
+   DISPLAY MEMBER
+========================================================= */
+
+function displayMember(index, direction = "right") {
+
+    currentMember = index;
+
+    const member = members[index];
+
+
+    profile.classList.remove(
+        "rabbit",
+        "swan",
+        "cat",
+        "koi",
+        "blackcat"
+    );
+
+    profile.classList.add(member.theme);
+
+
+    profilePhoto.style.display = "block";
+
+    profilePhoto.src = member.photo;
+
+    profilePhoto.alt =
+        member.name + " member photo";
+
+
+    profilePhoto.onerror = function() {
+
+        this.style.display = "none";
+
+    };
+
+
+    profileName.textContent =
+        member.name;
+
+    profileAnimal.textContent =
+        member.animal;
+
+
+    profileDetails.innerHTML = "";
+
+
+    member.details.forEach((detail, i) => {
+
+        const detailElement =
+            document.createElement("div");
+
+        detailElement.className =
+            "profile-detail";
+
+
+        const strong =
+            document.createElement("strong");
+
+        strong.textContent =
+            detail.label;
+
+
+        detailElement.appendChild(
+            strong
+        );
+
+
+        detailElement.appendChild(
+            document.createTextNode(
+                detail.value
+            )
+        );
+
+
+        profileDetails.appendChild(
+            detailElement
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   OPEN MEMBER
+========================================================= */
+
+function openMember(index) {
+
+    displayMember(index);
+
+    overlay.classList.add("active");
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =========================================================
+   CLOSE MEMBER
+========================================================= */
+
+function closeMember() {
+
+    overlay.classList.remove("active");
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   NEXT MEMBER
+========================================================= */
+
+function nextMember() {
+
+    const next =
+        (currentMember + 1)
+        % members.length;
+
+    displayMember(next, "right");
+
+}
+
+
+/* =========================================================
+   PREVIOUS MEMBER
+========================================================= */
+
+function previousMember() {
+
+    const previous =
+        (currentMember - 1 + members.length)
+        % members.length;
+
+    displayMember(previous, "left");
+
+}
+
+
+/* =========================================================
+   PARTNERSHIP
+========================================================= */
+
+const partnershipOverlay =
+    document.getElementById(
+        "partnershipOverlay"
+    );
+
+function openPartnership() {
+
+    partnershipOverlay.classList.add(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+function closePartnership() {
+
+    partnershipOverlay.classList.remove(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   ARCHIVE
+========================================================= */
+
+const archiveOverlay =
+    document.getElementById(
+        "archiveOverlay"
+    );
+
+function openArchive() {
+
+    archiveOverlay.classList.add(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+function closeArchive() {
+
+    archiveOverlay.classList.remove(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   CLICK OUTSIDE MODALS
+========================================================= */
+
+overlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === overlay
+        ) {
+
+            closeMember();
+
+        }
+
+    }
+);
+
+
+partnershipOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === partnershipOverlay
+        ) {
+
+            closePartnership();
+
+        }
+
+    }
+);
+
+
+archiveOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === archiveOverlay
+        ) {
+
+            closeArchive();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD CONTROLS
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            overlay.classList.contains("active")
+        ) {
+
+            if (
+                event.key === "ArrowRight"
+            ) {
+
+                nextMember();
+
+            }
+
+            if (
+                event.key === "ArrowLeft"
+            ) {
+
+                previousMember();
+
+            }
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeMember();
+
+            }
+
+        }
+
+
+        if (
+            partnershipOverlay.classList.contains(
+                "active"
+            )
+        ) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closePartnership();
+
+            }
+
+        }
+
+
+        if (
+            archiveOverlay.classList.contains(
+                "active"
+            )
+        ) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeArchive();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INSANE REPEATING SCROLL ANIMATIONS
+========================================================= */
+
+const revealElements =
+    document.querySelectorAll(".reveal");
+
+
+const revealObserver =
+    new IntersectionObserver(
+        function(entries) {
+
+            entries.forEach(entry => {
+
+                if (
+                    entry.isIntersecting
+                ) {
+
+                    entry.target.classList.add(
+                        "visible"
+                    );
+
+                } else {
+
+                    /*
+                       REMOVE THE CLASS WHEN THE
+                       ELEMENT LEAVES THE SCREEN.
+
+                       This is what makes the animation
+                       happen AGAIN when scrolling back.
+                    */
+
+                    entry.target.classList.remove(
+                        "visible"
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15,
+
+            rootMargin:
+                "0px 0px -70px 0px"
+        }
+    );
+
+
+revealElements.forEach(element => {
+
+    revealObserver.observe(element);
+
+});
+
+
+/* =========================================================
+   STAGGER CREDIT / MEMBER CARDS
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".credits-grid, .members-grid, .news-grid"
+    )
+    .forEach(grid => {
+
+        const cards =
+            grid.children;
+
+        Array.from(cards).forEach(
+            (card, index) => {
+
+                card.style.transitionDelay =
+                    `${index * 0.08}s`;
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   ARCHIVE ENTRY STAGGER
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".archive-entry"
+    )
+    .forEach((entry, index) => {
+
+        entry.style.animationDelay =
+            `${index * 0.07}s`;
+
+    });
+
+
+/* =========================================================
+   PREVENT BUTTON CLICK FROM ACTING WEIRD
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".member-info-button"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function(event) {
+
+                event.stopPropagation();
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   NAVBAR SCROLL EFFECT
+========================================================= */
+
+window.addEventListener(
+    "scroll",
+    function() {
+
+        const nav =
+            document.querySelector("nav");
+
+        if (
+            window.scrollY > 50
+        ) {
+
+            nav.style.background =
+                "rgba(3,5,12,0.92)";
+
+            nav.style.boxShadow =
+                "0 15px 50px rgba(0,0,0,0.3)";
+
+        } else {
+
+            nav.style.background =
+                "rgba(5,7,15,0.72)";
+
+            nav.style.boxShadow =
+                "0 10px 40px rgba(0,0,0,0.18)";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
